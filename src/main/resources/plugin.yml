@@ -1,6 +1,5 @@
 name: NoMoreHunger
 main: net.roguedraco.nomorehunger.NoMoreHungerPlugin
-version: 1.0
+version: 1.1
 depends: [Vault]
 dev-url: http://dev.bukkit.org/server-mods/nomorehunger/
-commands:
