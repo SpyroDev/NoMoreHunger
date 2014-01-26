@@ -1,5 +1,7 @@
 package net.roguedraco.nomorehunger;
 
+
+import org.bukkit.ChatColor;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,16 +16,25 @@ public class Events implements Listener {
 	public void onHunger(FoodLevelChangeEvent event) {
 		if(event.getEntityType() == EntityType.PLAYER) {
 			Player player = (Player) event.getEntity();
-			if(!NoMoreHungerPlugin.permission.playerHas(player, "nomorehunger.exclude")) {
+			if(!player.hasPermission("nomorehunger.exclude") || player.hasPermission("nomorehunger.include")) {
 				event.setCancelled(true);
+				player.setFoodLevel(20); // Just incase
 			}
 		}
 	}
 	
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onPlayerJoin(PlayerJoinEvent event) {
-		if(NoMoreHungerPlugin.permission.playerHas(event.getPlayer(), "nomorehunger.update")) {
-			NoMoreHungerPlugin.getUpdater().updateNeeded(event.getPlayer());
+		if(NoMoreHungerPlugin.getUpdater() != null) {
+			if(event.getPlayer().hasPermission("nomorehunger.update")) {
+				Updater updater = NoMoreHungerPlugin.getUpdater();
+				
+				if(updater.getResult() == Updater.UpdateResult.UPDATE_AVAILABLE) {
+					event.getPlayer().sendMessage(ChatColor.GREEN+"An update is available for NoMoreHunger!");
+					event.getPlayer().sendMessage(ChatColor.GREEN+"Latest Version: " + updater.getLatestName() + " " + updater.getLatestFileLink());
+				}
+			}
 		}
+			
 	}
 }

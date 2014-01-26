@@ -1,4 +1,4 @@
-package net.roguedraco.nomorehunger.lang;
+package net.roguedraco.nomorehunger;
 
 import java.io.File;
 import java.io.IOException;
